@@ -39,11 +39,11 @@ export class AuthService {
     };
 
     return this.http.post(
-      `${ this.url }signInWithPassword?key=${ this.apikey }`,
+      `${ this.url }signUp?key=${ this.apikey }`,
       authData
     ).pipe(
       map( resp => {
-        this.guardarToken( resp['idToken'] );
+        this.guardarToken( (resp as any)['idToken'] as string ); // Aserción de tipo
         return resp;
       })
     );
@@ -62,7 +62,7 @@ export class AuthService {
       authData
     ).pipe(
       map( resp => {
-        this.guardarToken( resp['idToken'] );
+        this.guardarToken( (resp as any)['idToken'] as string ); // Aserción de tipo
         return resp;
       })
     );
