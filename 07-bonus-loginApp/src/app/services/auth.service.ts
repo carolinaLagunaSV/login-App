@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class AuthService {
 
+
   private url = 'https://identitytoolkit.googleapis.com/v1/accounts:';
   private apikey = 'AIzaSyAdh-F9noi1iVVYLZSwGGfRji-S7jkIa4w';
 
@@ -87,6 +88,24 @@ export class AuthService {
     return this.userToken;
   }
 
+  estaAutenticado(): boolean {
+
+    if ( this.userToken.length < 2 ) {
+      return false;
+    }
+
+    const expira = Number(localStorage.getItem('expira'));
+    const expiraDate = new Date();
+    expiraDate.setTime(expira);
+
+    if ( expiraDate > new Date() ) {
+      return true;
+    } else {
+      return false;
+    }
+
+
+  }
 
 
 

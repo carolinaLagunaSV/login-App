@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
+
   usuario: UsuarioModel = new UsuarioModel();
   recordarme = false;
 
