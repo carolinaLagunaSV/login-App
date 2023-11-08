@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { UsuarioModel } from '../models/usuario.model';
 
 import { map } from 'rxjs/operators';
@@ -9,24 +9,22 @@ import { map } from 'rxjs/operators';
 })
 export class AuthService {
 
-
-  private url = 'https://identitytoolkit.googleapis.com/v1/accounts:';
+  private url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
   private apikey = 'AIzaSyAdh-F9noi1iVVYLZSwGGfRji-S7jkIa4w';
 
   userToken: any;
 
-
-  // CREAR NUEVOS USUARIOS
-  // https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
+  // Crear nuevo usuario
+  // https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=[API_KEY]
 
 
   // Login
-  // https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]
+  // https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=[API_KEY]
 
-
-  constructor( private http:HttpClient ) {
+  constructor( private http: HttpClient ) {
     this.leerToken();
   }
+
 
   logout() {
     localStorage.removeItem('token');
@@ -51,6 +49,7 @@ export class AuthService {
 
   }
 
+
   nuevoUsuario( usuario: UsuarioModel ) {
 
     const authData = {
@@ -71,14 +70,21 @@ export class AuthService {
   }
 
 
-  private guardarToken( idToken: string){
+  private guardarToken( idToken: string ) {
 
     this.userToken = idToken;
-    localStorage.setItem('token',idToken);
+    localStorage.setItem('token', idToken);
+
+    let hoy = new Date();
+    hoy.setSeconds( 3600 );
+
+    localStorage.setItem('expira', hoy.getTime().toString() );
+
 
   }
 
   leerToken() {
+
     if ( localStorage.getItem('token') ) {
       this.userToken = localStorage.getItem('token');
     } else {
@@ -86,7 +92,9 @@ export class AuthService {
     }
 
     return this.userToken;
+
   }
+
 
   estaAutenticado(): boolean {
 
@@ -106,7 +114,6 @@ export class AuthService {
 
 
   }
-
 
 
 }
